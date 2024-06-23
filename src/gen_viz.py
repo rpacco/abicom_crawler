@@ -3,8 +3,6 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.ticker import FuncFormatter
-import numpy as np
-from itertools import combinations
 from datetime import datetime
 import json
 
