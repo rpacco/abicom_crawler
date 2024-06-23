@@ -12,10 +12,8 @@ import json
 def currency_formatter(x, pos):
     return f'{x:.2f}'  # Format numbers as currency
 
-def wrangle(combustivel: str, tipo: str):
+def wrangle(combustivel: str):
     data_path = f'data/output.json'
-    
-    key = combustivel + '_' + tipo
     
     with open(data_path, 'r') as f:
         data = json.load(f)
@@ -25,10 +23,10 @@ def wrangle(combustivel: str, tipo: str):
     df.sort_values('date', inplace=True)
     df.set_index('date', inplace=True, drop=True)
     df.columns = [x.removeprefix('content_') for x in df.columns]
-    df['year_ma'] = round(df[key].rolling(252).mean(), 2)
+    df['year_ma'] = round(df[combustivel].rolling(252).mean(), 2)
     df.index = pd.to_datetime(df.index, dayfirst=True)
     df.sort_index(inplace=True)
-    df = df[[key, 'year_ma']].dropna()
+    df = df[[combustivel, 'year_ma']].dropna()
     
     return df
 
