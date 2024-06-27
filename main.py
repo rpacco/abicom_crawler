@@ -12,8 +12,11 @@ except subprocess.CalledProcessError as e:
     print(f"Error running Scrapy spider: {e}")
     sys.exit(1)
 
-df = wrangle('diesel_brl')
-gen_graph(df, 'diesel_brl')
-text = gen_text(df, 'diesel_brl')
-# print(text)
-create_tweet(text, f"data/{today}_diesel_brl.jpg")
+options = ['diesel_brl', 'gasolina_brl']
+
+for comb in options:
+    df = wrangle(comb)
+    gen_graph(df, comb)
+    text = gen_text(df, comb)
+    # print(text)
+    create_tweet(text, f"data/{today}_{comb}.jpg")

@@ -29,6 +29,7 @@ def wrangle(combustivel: str):
     return df
 
 def gen_graph(df, combustivel):
+    label_comb = combustivel.split('_')[0].upper()
     nlargest = df[f'{combustivel}'].nlargest(5)
     largest_filtered_indices = []
     largest_previous_indices = []
@@ -55,7 +56,7 @@ def gen_graph(df, combustivel):
     plt.figure(figsize=(10, 5))
 
     # Plot the 'combustivel' column
-    ax = sns.lineplot(data=df, y=f'{combustivel}', x=df.index, color='blue', linewidth=2, label=f'{combustivel}')
+    ax = sns.lineplot(data=df, y=f'{combustivel}', x=df.index, color='blue', linewidth=2, label=f'{label_comb}')
     sns.lineplot(data=df, y='year_ma', x=df.index, color='orange', linewidth=1, label='Média móvel 252 dias')
 
     # Formatting x-axis labels to 'Month-Year'
@@ -66,7 +67,7 @@ def gen_graph(df, combustivel):
     plt.xlabel('')
     plt.hlines(y=0, xmin=df.index[0], xmax=df.index[-1], linestyles='dashed', alpha=0.2)
 
-    ax.set_title('Defasagem média do diesel nos principais polos Petrobrás\n (R$/L)', weight='bold')
+    ax.set_title(f'Defasagem média {label_comb} nos principais polos Petrobrás\n (R$/L)', weight='bold')
     plt.figtext(0.02, 0.95, 'Fonte: Abicom', fontsize=8, color='gray')
 
     # Setting y-axis label and formatting
