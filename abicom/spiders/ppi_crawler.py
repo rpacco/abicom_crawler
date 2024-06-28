@@ -20,7 +20,8 @@ class PpiCrawlerSpider(scrapy.Spider):
 
         if last_date == self.today:
             self.log("Latest date matches today's date, continuing the script.")
-            date_range = pd.date_range(end=self.today, periods=520, freq='B').strftime('%d-%m-%Y')
+            date_range_raw = pd.date_range(end=self.today, periods=520, freq='B')
+            date_range = [date.strftime('%d-%m-%Y') for date in date_range_raw]
             url = 'https://abicom.com.br/ppi/ppi-{}/'
 
             for date in date_range:

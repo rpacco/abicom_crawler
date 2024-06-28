@@ -10,8 +10,8 @@ import json
 def currency_formatter(x, pos):
     return f'{x:.2f}'  # Format numbers as currency
 
-def wrangle(combustivel: str):
-    data_path = f'data/output.json'
+def wrangle(combustivel: str, date: str):
+    data_path = f'data/{date}_output.json'
     
     with open(data_path, 'r') as f:
         data = json.load(f)

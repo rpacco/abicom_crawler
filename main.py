@@ -15,8 +15,7 @@ except subprocess.CalledProcessError as e:
 options = ['diesel_brl', 'gasolina_brl']
 
 for comb in options:
-    df = wrangle(comb)
+    df = wrangle(comb, today)
     gen_graph(df, comb)
     text = gen_text(df, comb)
-    # print(text)
     create_tweet(text, f"data/{today}_{comb}.jpg")
