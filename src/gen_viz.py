@@ -115,7 +115,7 @@ def gen_text(df, combustivel):
 
     # Check the condition and create the text
     text = (
-        f'{red_circle if df[combustivel].values[-1] < 0 else green_circle} Defasagem média do {combustivel.split("_")[0].upper()} em {today.strftime("%d/%m/%Y")}: {df[combustivel].values[-1]:.2f} R$/L.\n'
+        f'{red_circle if df[combustivel].values[-1] < 0 else green_circle} Defasagem média {combustivel.split("_")[0].upper()} em {today.strftime("%d/%m/%Y")}: {df[combustivel].values[-1]:.2f} R$/L.\n'
         f'Média defasagem últimos 252 dias: {df["year_ma"].values[-1]:.2f} R$/L.\n'
         'Fonte: ABICOM'
       )

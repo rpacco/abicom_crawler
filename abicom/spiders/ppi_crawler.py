@@ -15,7 +15,7 @@ class PpiCrawlerSpider(scrapy.Spider):
         yield scrapy.Request(url_date, callback=self.check_date)
 
     def check_date(self, response):
-        last_date_text = response.css('div.card-date::text').get()
+        last_date_text = response.css('h5.card-title::text').get().split(' - ')[-1]
         last_date = pd.to_datetime(last_date_text, dayfirst=True).date()
 
         if last_date == self.today:
