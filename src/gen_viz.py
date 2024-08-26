@@ -6,15 +6,16 @@ from matplotlib.ticker import FuncFormatter
 from datetime import datetime
 import json
 from adjustText import adjust_text
+import os
 
 # Formatting y-axis labels
 def currency_formatter(x, pos):
     return f'{x:.2f}'  # Format numbers as currency
 
-def wrangle(combustivel: str, date: str):
-    data_path = f'data/{date}_output.json'
+def wrangle(combustivel: str, date: str, data_dir: str):
+    file_path = os.path.join(data_dir, f"{date}_output.json")
     
-    with open(data_path, 'r') as f:
+    with open(file_path, 'r') as f:
         data = json.load(f)
 
     df = pd.json_normalize(data, sep='_', record_prefix=False)
@@ -29,7 +30,7 @@ def wrangle(combustivel: str, date: str):
     
     return df
 
-def gen_graph(df, combustivel):
+def gen_graph(df, combustivel, data_dir):
     label_comb = combustivel.split('_')[0].upper()
     nlargest = df[f'{combustivel}'].nlargest(5)
     largest_filtered_indices = []
@@ -123,7 +124,7 @@ def gen_graph(df, combustivel):
 
     plt.tight_layout()
     plt.legend()
-    plt.savefig(f'data/{today}_{combustivel}.jpg')
+    plt.savefig(os.path.join(data_dir, f'{today}_{combustivel}.jpg'))
 
 def gen_text(df, combustivel):
     today = datetime.today()
