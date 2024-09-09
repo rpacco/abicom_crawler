@@ -31,7 +31,12 @@ def wrangle(combustivel: str, date: str):
 
 def gen_graph(df, combustivel):
     label_comb = combustivel.split('_')[0].upper()
-    nlargest = df[f'{combustivel}'].nlargest(5)
+    
+    # Slice the DataFrame to exclude the last 20 rows
+    df_filtered = df.iloc[0:-20]
+
+    # Find the 5 largest values from the filtered DataFrame
+    nlargest = df_filtered[f'{combustivel}'].nlargest(5)
     largest_filtered_indices = []
     largest_previous_indices = []
 
@@ -39,9 +44,11 @@ def gen_graph(df, combustivel):
         if not largest_previous_indices or all((index - prev_index).days > 30 for prev_index in largest_previous_indices):
             largest_filtered_indices.append(index)
             largest_previous_indices.append(index)
+
     nlargest = nlargest.loc[largest_filtered_indices]
 
-    nsmallest = df[f'{combustivel}'].nsmallest(5)
+    # Find the 5 smallest values from the filtered DataFrame
+    nsmallest = df_filtered[f'{combustivel}'].nsmallest(5)
     smallest_filtered_indices = []
     smallest_previous_indices = []
 
@@ -49,6 +56,7 @@ def gen_graph(df, combustivel):
         if not smallest_previous_indices or all((index - prev_index).days > 30 for prev_index in smallest_previous_indices):
             smallest_filtered_indices.append(index)
             smallest_previous_indices.append(index)
+
     nsmallest = nsmallest.loc[smallest_filtered_indices]
 
     today = datetime.today().date()
